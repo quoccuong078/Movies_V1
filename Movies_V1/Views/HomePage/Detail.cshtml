@@ -1,0 +1,130 @@
+﻿
+@model List<Movies_V1.Models.Episode>
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutHomePage.cshtml";
+}
+
+<style>
+    .movie-banner video {
+        width: 100%;
+        max-width: 72 0px;
+        height: auto;
+        border-radius: 8px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .movie-banner .video-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .video-overlay-content {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 2;
+        color: white;
+    }
+
+    .btn-custom {
+        margin-right: 10px;
+    }
+
+    .episode-card {
+        width: 50%;
+        aspect-ratio: 3 / 3;
+        margin: 10px;
+        display: inline-block; /* Ensure cards are displayed inline for consistency */
+        vertical-align: top;
+    }
+
+    .episode-thumbnail {
+        width: 70%;
+        max-height: 75px;
+        height: 75px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .card {
+        border: none;
+        background: #242121;
+        display: inline-block;
+        vertical-align: top;
+        border-radius: 8px
+    }
+
+    .col-md-2 {
+        padding: 5px;
+    }
+</style>
+
+<div class="movie-banner d-flex align-items-end">
+    <div class="movie-overlay w-100">
+        <div class="container">
+            <div class="video-container">
+                <video autoplay muted loop>
+                    <source src="https://trailer.vieon.vn/Teaser_QuyNu_mkt.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay-content">
+                    <h1 class="movie-title">Quý Nữ <span class="fs-4">The Glory</span></h1>
+                    <div class="d-flex mb-3">
+                        <button class="btn btn-light btn-custom">▶ Xem ngay</button>
+                        <button class="btn btn-outline-light btn-custom">＋ Danh sách</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-white mt-4">
+                <div class="col-md-6">
+                    <div class="movie-info mb-2">
+                        <div class="d-flex align-items-center flex-wrap mb-1">
+                            <span class="me-2">5.688.410 lượt xem</span> |
+                            <span class="rating ms-2">
+                                4.8
+                                <i class="bi bi-star-fill">⭐</i>
+                                <i class="bi bi-star-fill">⭐</i>
+                                <i class="bi bi-star-fill">⭐</i>
+                                <i class="bi bi-star-fill">⭐</i>
+                                <i class="bi bi-star-fill">⭐</i>
+                            </span>
+                        </div>
+                        <div class="d-flex flex-wrap">
+                            <span class="me-2">2025</span> |
+                            <span class="mx-2">T13</span> |
+                            <span class="mx-2">Trung Quốc</span> |
+                            <span class="mx-2">1 Phần</span> |
+                            <span class="ms-2">Full HD</span>
+                        </div>
+                    </div>
+                    <p>Cô tiểu thư Trang Hàn Nhạn (Trần Đô Linh) bị gia tộc hắt hủi từ nhỏ, từng bước tìm được chỗ đứng của mình.</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Diễn viên:</strong> Trần Đô Linh, Tần Văn Lai, Hà Hoàng San, Dụ Ân Thái, Ôn Tranh Vanh, Vương Diễm, Lưu Húc Uy, Phó Tình, Lý Thạnh</p>
+                    <p><strong>Đạo diễn:</strong> Dương Long</p>
+                    <p><strong>Thể loại:</strong> Phim cổ trang</p>
+                </div>
+                <h4 class="text-white mt-5">Danh sách tập phim</h4>
+                <div class="row">
+                    @foreach (var ep in Model)
+                    {
+                        <div class="col-md-2 mb-2">
+                            <div class="card bg-dark text-white episode-card">
+                                <img src="@ep.ThumbnailUrl" class="card-img-top episode-thumbnail" alt="@ep.Title" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@ep.Title</h5>
+                                    <a href="@ep.WatchUrl" class="btn btn-sm btn-light">Xem tập</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div>
