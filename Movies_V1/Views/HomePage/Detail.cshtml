@@ -34,7 +34,7 @@
     }
 
     .episode-card {
-        width: 50%;
+        width: 70%;
         aspect-ratio: 3 / 3;
         margin: 10px;
         display: inline-block; /* Ensure cards are displayed inline for consistency */
@@ -42,9 +42,9 @@
     }
 
     .episode-thumbnail {
-        width: 70%;
+        width: 80%;
         max-height: 75px;
-        height: 75px;
+        height: 100px;
         object-fit: contain;
         display: block;
         margin: 0 auto;
@@ -61,6 +61,26 @@
     .col-md-2 {
         padding: 5px;
     }
+
+    .img-episode {
+        width: 100%;
+        aspect-ratio: 3 / 3;
+        object-fit: cover;
+        border-radius: 8px 8px 0 0;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+        .img-episode:hover {
+            transform: scale(1.03);
+        }
+
+
+    .card-title {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
 </style>
 
 <div class="movie-banner d-flex align-items-end">
@@ -78,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row text-white mt-4">
+            <div class="row text-white mt-2">
                 <div class="col-md-6">
                     <div class="movie-info mb-2">
                         <div class="d-flex align-items-center flex-wrap mb-1">
@@ -107,16 +127,18 @@
                     <p><strong>Đạo diễn:</strong> Dương Long</p>
                     <p><strong>Thể loại:</strong> Phim cổ trang</p>
                 </div>
-                <h4 class="text-white mt-5">Danh sách tập phim</h4>
+                <h4 class="row gx-2 gy-3">Danh sách tập phim</h4>
                 <div class="row">
                     @foreach (var ep in Model)
                     {
-                        <div class="col-md-2 mb-2">
-                            <div class="card bg-dark text-white episode-card">
-                                <img src="@ep.ThumbnailUrl" class="card-img-top episode-thumbnail" alt="@ep.Title" />
-                                <div class="card-body">
-                                    <h5 class="card-title">@ep.Title</h5>
-                                    <a href="@ep.WatchUrl" class="btn btn-sm btn-light">Xem tập</a>
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="card bg-dark text-white shadow border-0">
+                                <a href="@ep.WatchUrl">
+                                    <img src="@ep.ThumbnailUrl" alt="@ep.Title" class="img-episode" />
+                                </a>
+                                <div class="card-body text-center px-2 py-3">
+                                    <h6 class="card-title text-truncate" title="@ep.Title">@ep.Title</h6>
+                                    <a href="@ep.WatchUrl" class="btn btn-outline-light btn-sm mt-2">Xem ngay</a>
                                 </div>
                             </div>
                         </div>
