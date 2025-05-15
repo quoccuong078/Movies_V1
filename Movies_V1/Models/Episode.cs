@@ -10,5 +10,7 @@ namespace Movies_V1.Models
         public string Title { get; set; }
         public string ThumbnailUrl { get; set; }
         public string WatchUrl { get; set; }
+        public int EpisodeNumber { get; set; }
+        public string LinkEmbed { get; set; }
     }
 }

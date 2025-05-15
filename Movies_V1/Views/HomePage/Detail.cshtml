@@ -17,7 +17,15 @@
 
     .movie-banner .video-container {
         position: relative;
-        display: inline-block;
+        display: block;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    #player {
+        width: 100% !important;
+        height: 600px !important;
     }
 
     .video-overlay-content {
@@ -111,12 +119,12 @@
         border-radius: 12px;
         transition: transform 0.2s ease;
     }
-        .recommended-card .img-episode {
-            height: 200px; /* Chỉnh chiều cao ảnh */
-            width: 100%; /* Chiều rộng ảnh theo vùng chứa */
-            object-fit: cover; /* Đảm bảo ảnh không bị méo và cắt bớt nếu cần */
-        }
 
+        .recommended-card .img-episode {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
 
         .recommended-card:hover {
             transform: scale(1.03);
@@ -136,13 +144,63 @@
             .recommended-card .btn-sm:hover {
                 background: #ff7878;
             }
+
+    .custom-movie-card {
+        background: #242121;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 200px;
+        margin: 5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+    }
+
+        .custom-movie-card:hover {
+            transform: scale(1.03);
+        }
+
+        .custom-movie-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .custom-movie-card .card-content {
+            padding: 10px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+            .custom-movie-card .card-content h4 {
+                margin: 0;
+                font-size: 18px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .custom-movie-card .card-content .rating {
+                font-size: 14px;
+                color: #ccc;
+            }
+
+                .custom-movie-card .card-content .rating .star {
+                    color: #ffd700;
+                    margin-left: 5px;
+                }
 </style>
 
 <div class="movie-banner d-flex align-items-end">
     <div class="movie-overlay w-100">
         <div class="container">
             <div class="video-container">
-                <div id="player"></div>
+                <iframe id="player"
+                        src="https://vip.opstream12.com/share/f2fb9d75af8f3f2eb322ff968e62a324"
+                        width="100%"
+                        height="600"
+                        frameborder="0"
+                        allowfullscreen>
+                </iframe>
                 <div class="video-overlay-content">
                     <h1 class="movie-title">Ngôi Trời Xa Sông</h1>
                     <div class="d-flex mb-3">
@@ -180,6 +238,7 @@
                     <p><strong>Đạo diễn:</strong> Dương Long</p>
                     <p><strong>Thể loại:</strong> Phim tình cảm</p>
                 </div>
+
                 <h4 class="row gx-2 gy-3">Danh sách tập phim</h4>
                 <div class="episode-list">
                     @if (Model != null && Model.Any())
@@ -196,6 +255,7 @@
                         <p class="text-white">Hiện tại chưa có tập phim nào.</p>
                     }
                 </div>
+
                 <h4 class="row gx-2 gy-3 mt-4">Gợi ý phim</h4>
                 <div class="row">
                     @if (ViewBag.RecommendedMovies != null)
@@ -219,6 +279,20 @@
                     {
                         <p class="text-white">Hiện tại chưa có phim gợi ý nào.</p>
                     }
+
+                    <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="custom-movie-card">
+                            <img src="https://contente.vn/uploads/images/korean-movie-poster.jpg" alt="Bà Chúa Trời" />
+                            <div class="card-content">
+                                <h4>Bà Chúa Trời</h4>
+                                <div class="rating">
+                                    <span>7.8</span>
+                                    <span class="star">⭐</span>
+                                    <span>2024</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -226,37 +300,10 @@
 </div>
 
 <script>
-    // Thêm script để nhúng YouTube API và điều khiển video
-    var player;
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '400',
-            width: '300',
-            videoId: 'DrY_K0mT-As', // Thay thế VIDEO_ID bằng ID của video YouTube
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        event.target.playVideo(); // Tự động phát video khi player đã sẵn sàng
-    }
-
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.ENDED) {
-            alert("Video đã kết thúc!");
+    function playVideo() {
+        var iframe = document.getElementById('player');
+        if (iframe) {
+            iframe.contentWindow.postMessage('play', '*');
         }
     }
-
-    function playVideo() {
-        player.playVideo(); // Phát video khi nhấn nút "Xem ngay"
-    }
-
-    // Chờ API YouTube tải
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 </script>
