@@ -1,0 +1,380 @@
+﻿@{
+    ViewBag.Title = "Watch Movie";
+    Layout = "~/Views/Shared/_LayoutHomePage.cshtml";
+}
+
+<style>
+    .video-container {
+        position: relative;
+        display: block;
+        width: 100%;
+        max-width: 1000px;
+        margin: 20px auto;
+    }
+
+    #player {
+        width: 100% !important;
+        height: 600px !important;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .video-overlay-content {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        z-index: 2;
+        color: white;
+    }
+
+    .btn-custom {
+        margin-right: 10px;
+    }
+
+    .movie-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .episode-card {
+        background: #242121;
+        border: 2px solid #ffffff;
+        border-radius: 8px;
+        width: 100px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .episode-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+
+        .episode-card a {
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    .col-md-2 {
+        padding: 5px;
+    }
+
+    .img-episode {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        border-radius: 12px;
+        display: block;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+        .img-episode:hover {
+            transform: scale(1.05);
+        }
+
+    .card-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #ffffff;
+    }
+
+    .episode-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .card {
+        border: none;
+        background: #242121;
+        border-radius: 8px;
+        margin: 5px;
+    }
+
+    .recommended-card {
+        text-align: center;
+        padding: 10px;
+        background: #1a1a1a;
+        border-radius: 12px;
+        transition: transform 0.2s ease;
+    }
+
+        .recommended-card .img-episode {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .recommended-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 14px rgba(255, 255, 255, 0.2);
+        }
+
+        .recommended-card .btn-sm {
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: #ff4d4d;
+            color: #ffffff;
+            border: none;
+            transition: background 0.2s ease;
+        }
+
+            .recommended-card .btn-sm:hover {
+                background: #ff7878;
+            }
+
+    .custom-movie-card {
+        background: #242121;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 200px;
+        margin: 5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+    }
+
+        .custom-movie-card:hover {
+            transform: scale(1.03);
+        }
+
+        .custom-movie-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .custom-movie-card .card-content {
+            padding: 10px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+            .custom-movie-card .card-content h4 {
+                margin: 0;
+                font-size: 18px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .custom-movie-card .card-content .rating {
+                font-size: 14px;
+                color: #ccc;
+            }
+
+                .custom-movie-card .card-content .rating .star {
+                    color: #ffd700;
+                    margin-left: 5px;
+                }
+
+    .movie-details {
+        margin-top: 20px;
+    }
+
+    .rating-section {
+        margin-bottom: 15px;
+    }
+
+    .star-rating {
+        display: inline-block;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+        .star-rating .star {
+            color: #ccc;
+            margin-right: 5px;
+        }
+
+            .star-rating .star.filled {
+                color: #ffd700;
+            }
+
+    .rating-text {
+        color: #ffffff;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .movie-stats {
+        font-size: 16px;
+        color: #ffffff;
+        margin-bottom: 10px;
+    }
+
+        .movie-stats span {
+            margin-right: 10px;
+        }
+</style>
+
+<div class="container">
+    <div class="video-container">
+        <iframe id="player"
+                src="@ViewBag.VideoUrl"
+                width="100%"
+                height="600"
+                frameborder="0"
+                allowfullscreen>
+        </iframe>
+        <div class="video-overlay-content">
+            <h1 class="movie-title">@ViewBag.MovieTitle</h1>
+            <div class="d-flex mb-3">
+                <button class="btn btn-light btn-custom" onclick="playVideo()">▶ Play</button>
+                <button class="btn btn-outline-light btn-custom" onclick="history.back()">← Back</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-white mt-2">
+        <div class="col-md-12">
+            <h4 class="row gx-2 gy-3">Danh sách tập phim</h4>
+            <div class="episode-list">
+                @if (ViewBag.Episodes != null)
+                {
+                    foreach (var ep in ViewBag.Episodes)
+                    {
+                        <div class="episode-card">
+                            <a href="@Url.Action("Watch", "HomePage", new { videoUrl = ViewBag.VideoUrl, movieTitle = ep.Title })" title="@ep.Title">@ep.Title</a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-white">Hiện tại chưa có tập phim nào.</p>
+                }
+            </div>
+
+            <!-- Reorganized Movie Details Section -->
+            <div class="movie-details">
+                <div class="rating-section">
+                    <h4>Đánh giá phim</h4>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                        <span class="rating-text" id="ratingText">Chọn số sao để đánh giá</span>
+                    </div>
+                </div>
+
+                <div class="movie-stats">
+                    <span>5.688.410 lượt xem</span> |
+                    <span>4.8 ★★★★★</span> |
+                    <span>1/14/2023 12:00:00 AM</span> |
+                    <span>T13</span> |
+                    <span>Việt Nam</span> |
+                    <span>1 Phần</span> |
+                    <span>Full HD</span>
+                </div>
+
+                <p><strong>Diễn viên:</strong> Trần Đô Linh, Tần Văn Lai, Hà Hoàng San, Dụ Ân Thái, Ôn Tranh Vanh, Vương Diễm, Lưu Húc Uy, Phó Tình, Lý Thạnh</p>
+                <p><strong>Đạo diễn:</strong> Dương Long</p>
+                <p><strong>Thể loại:</strong> Phim tình cảm</p>
+                <p><strong>Thời lượng:</strong> 12 Tập</p>
+
+                <p><strong>Nội dung phim:</strong> "Ngôi Trời Xa Sông" là một bộ phim tình cảm lãng mạn Việt Nam, kể về hành trình tình yêu đầy cảm xúc giữa An Nhiên, một cô gái trẻ sống ở vùng quê nghèo khó, và Minh Khang, một chàng trai thành phố mang trong mình ước mơ thay đổi cuộc đời. Họ tình cờ gặp nhau trong một lần Minh Khang về quê tìm lại ký ức tuổi thơ. Dù xuất thân và hoàn cảnh khác biệt, cả hai dần bị cuốn vào một mối tình sâu đậm. Tuy nhiên, những rào cản từ gia đình, xã hội và những bí mật trong quá khứ của Minh Khang khiến họ phải đối mặt với nhiều thử thách. Liệu tình yêu của họ có vượt qua được những sóng gió để tìm thấy bến bờ hạnh phúc? Bộ phim không chỉ mang đến những khoảnh khắc ngọt ngào mà còn chứa đựng những bài học sâu sắc về lòng tin, sự hy sinh và ý nghĩa của tình yêu đích thực.</p>
+            </div>
+
+            <h4 class="row gx-2 gy-3 mt-4">Gợi ý phim</h4>
+            <div class="row">
+                @if (ViewBag.RecommendedMovies != null)
+                {
+                    foreach (var movie in ViewBag.RecommendedMovies)
+                    {
+                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="card bg-dark text-white recommended-card">
+                                <a href="@movie.WatchUrl">
+                                    <img src="@movie.ThumbnailUrl" alt="@movie.Title" class="img-episode" />
+                                </a>
+                                <div class="card-body text-center px-2 py-2">
+                                    <h6 class="card-title text-truncate" title="@movie.Title">@movie.Title</h6>
+                                    <a href="@movie.WatchUrl" class="btn btn-sm mt-1">Xem ngay</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-white">Hiện tại chưa có phim gợi ý nào.</p>
+                }
+
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="custom-movie-card">
+                        <img src="https://contente.vn/uploads/images/korean-movie-poster.jpg" alt="Bà Chúa Trời" />
+                        <div class="card-content">
+                            <h4>Bà Chúa Trời</h4>
+                            <div class="rating">
+                                <span>7.8</span>
+                                <span class="star">★</span>
+                                <span>2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function playVideo() {
+        var iframe = document.getElementById('player');
+        if (iframe) {
+            iframe.contentWindow.postMessage('play', '*');
+        }
+    }
+
+    // Star Rating Functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('#starRating .star');
+        const ratingText = document.getElementById('ratingText');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const rating = this.getAttribute('data-value');
+                stars.forEach(s => s.classList.remove('filled'));
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('filled');
+                }
+                ratingText.textContent = `Bạn đã đánh giá ${rating}/5 sao`;
+            });
+
+            star.addEventListener('mouseover', function () {
+                stars.forEach(s => s.classList.remove('filled'));
+                const rating = this.getAttribute('data-value');
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('filled');
+                }
+            });
+
+            star.addEventListener('mouseout', function () {
+                const currentRating = Array.from(stars).filter(s => s.classList.contains('filled')).length;
+                stars.forEach(s => s.classList.remove('filled'));
+                for (let i = 0; i < currentRating; i++) {
+                    stars[i].classList.add('filled');
+                }
+            });
+        });
+    });
+</script>
