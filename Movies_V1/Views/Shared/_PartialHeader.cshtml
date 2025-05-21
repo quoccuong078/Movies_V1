@@ -1,51 +1,297 @@
-﻿
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+﻿<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm" style="background: linear-gradient(90deg, #1c2526, #2a3b3c);">
     <div class="container-fluid">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-            <i class="fas fa-video me-2" style="font-size: 30px; color: #ff0000;"></i>
-            <span style="font-size: 30px; font-family: 'Agency FB', sans-serif; font-weight: bold; color:#ff0000;">Planet</span>
+        <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-video me-2" style="font-size: 32px; color: #ff4d4d;"></i>
+            <span style="font-size: 32px; font-family: 'Agency FB', sans-serif; font-weight: bold; color: #ff4d4d; text-shadow: 1px 1px 3px rgba(255, 77, 77, 0.5);">Planet</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-white active" href="#">Trang chủ</a>
+                    <a class="nav-link text-light active" href="#" style="transition: all 0.3s ease;">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Phim bộ</a>
+                    <a class="nav-link text-light" href="#" style="transition: all 0.3s ease;">Phim bộ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Phim lẻ</a>
+                    <a class="nav-link text-light" href="#" style="transition: all 0.3s ease;">Phim lẻ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Thiếu nhi</a>
+                    <a class="nav-link text-light" href="#" style="transition: all 0.3s ease;">Thiếu nhi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Thể thao</a>
+                    <a class="nav-link text-light" href="#" style="transition: all 0.3s ease;">Thể thao</a>
                 </li>
             </ul>
 
             <form class="d-flex me-3">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-danger" type="submit">Search</button>
+                <input class="form-control me-2 border-light" type="search" placeholder="Search" aria-label="Search" style="background-color: #ffffff; color: #333; border-radius: 20px;">
+                <button class="btn btn-danger" type="submit" style="border-radius: 20px; transition: all 0.3s ease;">Search</button>
             </form>
 
             <ul class="navbar-nav ms-3">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">
-                        <i class="fa-solid fa-user"></i> Sign Up
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="#">
-                        <i class="fa-solid fa-right-to-bracket"></i> Login
-                    </a>
-                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-light dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="transition: all 0.3s ease;">
+                            <i class="fa-solid fa-user"></i> @User.Identity.Name
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-light text-dark border-0" aria-labelledby="userDropdown" style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
+                            <li><a class="dropdown-item text-dark" href="#" style="transition: all 0.3s ease;">Profile</a></li>
+                            <li><a class="dropdown-item text-dark" asp-area="" asp-controller="Account" asp-action="Logout" style="transition: all 0.3s ease;">Logout</a></li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-light" data-bs-toggle="modal" data-bs-target="#loginModal" style="transition: all 0.3s ease;">
+                            <i class="fa-solid fa-right-to-bracket"></i> Login
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </div>
 </nav>
+
+<style>
+    .navbar {
+        padding: 1rem 2rem;
+    }
+
+    .navbar-brand {
+        transition: all 0.3s ease;
+    }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            color: #ff6666 !important;
+        }
+
+    .nav-link {
+        font-size: 16px;
+        padding: 0.5rem 1rem;
+        color: #f0f4f5 !important;
+    }
+
+        .nav-link:hover {
+            color: #ff4d4d !important;
+            background-color: rgba(255, 77, 77, 0.1);
+            border-radius: 5px;
+        }
+
+    .form-control {
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+        }
+
+    .btn-danger {
+        background-color: #ff4d4d;
+        border: none;
+        box-shadow: 0 2px 5px rgba(255, 77, 77, 0.3);
+    }
+
+        .btn-danger:hover {
+            background-color: #ff6666;
+            transform: scale(1.05);
+        }
+
+    .dropdown-menu {
+        padding: 0.5rem 0;
+        background-color: #f0f4f5 !important;
+    }
+
+    .dropdown-item {
+        color: #333 !important;
+    }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 77, 77, 0.2) !important;
+            color: #ff4d4d !important;
+        }
+</style>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content text-dark" style="border-radius: 12px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); background: linear-gradient(135deg, #f0f4f5, #e1e7e8);">
+            <div class="modal-header border-0">
+                <ul class="nav nav-tabs card-header-tabs" id="loginTab" role="tablist" style="border-bottom: 2px solid #ff4d4d;">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true" style="color: #ff4d4d; font-weight: 500; transition: all 0.3s ease;">Login</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false" style="color: #ff4d4d; font-weight: 500; transition: all 0.3s ease;">Register</button>
+                    </li>
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="tab-content">
+                    <!-- Login Tab -->
+                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <form asp-controller="Account" asp-action="Login" method="post" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label for="loginEmail" class="form-label text-dark">Email address</label>
+                                <input type="email" class="form-control bg-white text-dark border-light" id="loginEmail" name="Email" placeholder="Enter email" required style="transition: all 0.3s ease; border-radius: 8px;">
+                                <div class="invalid-feedback">Please provide a valid email.</div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="loginPassword" class="form-label text-dark">Password</label>
+                                <input type="password" class="form-control bg-white text-dark border-light" id="loginPassword" name="Password" placeholder="Password" required style="transition: all 0.3s ease; border-radius: 8px;">
+                                <div class="invalid-feedback">Please provide a password.</div>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100 mb-3" style="border-radius: 8px; transition: all 0.3s ease;">Login</button>
+                        </form>
+                        <div class="text-center mt-3">
+                            <p class="text-muted">Or login with:</p>
+                            <button class="btn btn-primary w-100 mb-2" style="background-color: #4d79ff; border: none; border-radius: 8px; transition: all 0.3s ease;">
+                                <i class="fab fa-google me-2"></i> Login with Google
+                            </button>
+                            <button class="btn btn-primary w-100 mb-2" style="background-color: #3b5998; border: none; border-radius: 8px; transition: all 0.3s ease;">
+                                <i class="fab fa-facebook-f me-2"></i> Login with Facebook
+                            </button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="small text-muted">Forgot your password? <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" data-bs-dismiss="modal" style="color: #ff4d4d; text-decoration: none; transition: all 0.3s ease;">Reset Password</a></p>
+                        </div>
+                    </div>
+
+                    <!-- Register Tab -->
+                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                        <form asp-controller="Account" asp-action="SignUp" method="post" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label for="registerEmail" class="form-label text-dark">Email address</label>
+                                <input type="email" class="form-control bg-white text-dark border-light" id="registerEmail" name="Email" placeholder="Enter email" required style="transition: all 0.3s ease; border-radius: 8px;">
+                                <div class="invalid-feedback">Please provide a valid email.</div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="registerPassword" class="form-label text-dark">Password</label>
+                                <input type="password" class="form-control bg-white text-dark border-light" id="registerPassword" name="Password" placeholder="Password" required style="transition: all 0.3s ease; border-radius: 8px;">
+                                <div class="invalid-feedback">Please provide a password.</div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="registerConfirmPassword" class="form-label text-dark">Confirm Password</label>
+                                <input type="password" class="form-control bg-white text-dark border-light" id="registerConfirmPassword" name="ConfirmPassword" placeholder="Confirm Password" required style="transition: all 0.3s ease; border-radius: 8px;">
+                                <div class="invalid-feedback">Passwords must match.</div>
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100 mb-3" style="border-radius: 8px; transition: all 0.3s ease;">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content text-dark" style="border-radius: 12px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); background: linear-gradient(135deg, #f0f4f5, #e1e7e8);">
+            <div class="modal-header border-0">
+                <h5 class="modal-title" id="forgotPasswordModalLabel" style="color: #ff4d4d;">Reset Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form asp-controller="Account" asp-action="ForgotPassword" method="post" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="forgotPasswordEmail" class="form-label text-dark">Email address</label>
+                        <input type="email" class="form-control bg-white text-dark border-light" id="forgotPasswordEmail" name="Email" placeholder="Enter your email" required style="transition: all 0.3s ease; border-radius: 8px;">
+                        <div class="invalid-feedback">Please provide a valid email.</div>
+                    </div>
+                    <button type="submit" class="btn btn-danger w-100 mb-3" style="border-radius: 8px; transition: all 0.3s ease;">Send Reset Link</button>
+                </form>
+                <p class="text-center mt-3 text-muted">Remembered your password? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" style="color: #ff4d4d; text-decoration: none; transition: all 0.3s ease;">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-content {
+        background: linear-gradient(135deg, #f0f4f5, #e1e7e8);
+    }
+
+    .nav-tabs .nav-link {
+        background: transparent !important;
+        color: #ff4d4d !important;
+    }
+
+        .nav-tabs .nav-link.active {
+            background: transparent !important;
+            border-bottom: 3px solid #ff4d4d !important;
+            color: #ff6666 !important;
+            font-weight: 600;
+        }
+
+    .nav-link:hover {
+        color: #ff6666 !important;
+        transform: scale(1.05);
+    }
+
+    .form-control {
+        background-color: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        color: #333 !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .form-control:focus {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+        }
+
+    .btn-danger {
+        background: linear-gradient(90deg, #ff4d4d, #ff6666);
+        border: none;
+        box-shadow: 0 2px 5px rgba(255, 77, 77, 0.3);
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(90deg, #ff6666, #ff4d4d);
+            transform: scale(1.05);
+        }
+
+    .btn-primary {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+    .modal-body {
+        padding: 2rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .invalid-feedback {
+        color: #ff4d4d;
+    }
+
+    a {
+        font-weight: 500;
+    }
+
+        a:hover {
+            color: #ff6666 !important;
+            text-decoration: underline;
+        }
+
+    .text-muted {
+        color: #666 !important;
+    }
+</style>
