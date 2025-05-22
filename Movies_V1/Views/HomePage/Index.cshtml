@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutHomePage.cshtml";
 }
@@ -14,3 +13,14 @@
     @Html.Partial("_PartialFooter")
 </div>
 
+<!-- Debug trạng thái đăng nhập -->
+<div class="container mt-3">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <p class="text-success">Đã đăng nhập với tên: @User.Identity.Name</p>
+    }
+    else
+    {
+        <p class="text-danger">Chưa đăng nhập</p>
+    }
+</div>

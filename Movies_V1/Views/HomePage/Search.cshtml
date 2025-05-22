@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Search Results";
+}
+
+<div class="container mt-5" style="background-color: #1c2526; color: #f0f4f5; padding: 20px;">
+    <h2>
+        @if (!string.IsNullOrEmpty(ViewBag.Category))
+        {
+            @ViewBag.Category
+        }
+        else if (!string.IsNullOrEmpty(ViewBag.SearchQuery))
+        {
+            @:Search Results for "@ViewBag.SearchQuery"
+        }
+        else
+        {
+            @:All Movies
+        }
+    </h2>
+    <div class="row">
+        @if (ViewBag.SearchResults != null && ViewBag.SearchResults.Any())
+        {
+            foreach (var movie in ViewBag.SearchResults)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card" style="background-color: #2a3b3c; color: #f0f4f5;">
+                        <img src="@movie.ThumbnailUrl" class="card-img-top" alt="@movie.Title" style="height: 300px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@movie.Title</h5>
+                            <a href="@movie.WatchUrl" class="btn btn-primary">Watch</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else if (ViewBag.Movies != null && ViewBag.Movies.Any())
+        {
+            foreach (var movie in ViewBag.Movies)
+            {
+                <div class="col-md-3 mb-4">
+                    <div class="card" style="background-color: #2a3b3c; color: #f0f4f5;">
+                        <img src="@movie.ThumbnailUrl" class="card-img-top" alt="@movie.Title" style="height: 300px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">@movie.Title</h5>
+                            <a href="@movie.WatchUrl" class="btn btn-primary">Watch</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No results found.</p>
+        }
+    </div>
+</div>
